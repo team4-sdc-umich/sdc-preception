@@ -58,13 +58,17 @@ if __name__ == "__main__":
         ann_image = row['guid/image']
         image = 'deploy/test/' + row['guid/image'] + '_image.jpg'
         image_arr = plt.imread(os.path.abspath(image))
-        fig, axes = plt.subplots(2,1)
+        fig, axes = plt.subplots(2,1, figsize=(100,100))
+
         fig.canvas.mpl_connect('key_press_event', press)
         axes[0].imshow(image_arr)
         ax1 = axes[0].set_title(ann_image)
         c = axes[1].text(0.5, 0.5, "Enter class")
 
+        mng = plt.get_current_fig_manager()
+
         plt.show()
+
         if global_exit:
             logging.warning("Exiting annotation loop")
             break
@@ -76,5 +80,5 @@ if __name__ == "__main__":
     df.to_csv(os.path.join(os.path.join(file_name)))
 
 
-    for cnt, df in enumerate(dfs):
-        df.to_csv("res/to_annotate_" + str(cnt) + ".csv" )
+    
+    
