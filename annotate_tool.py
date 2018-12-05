@@ -51,7 +51,7 @@ if __name__ == "__main__":
     # file_name = os.path.abspath("res/test_annotations_1.csv")
     df = pd.read_csv(file_name)
 
-    
+
 
     for  i, row in df[df.valid == 0].iterrows():
 
@@ -63,6 +63,21 @@ if __name__ == "__main__":
         fig.canvas.mpl_connect('key_press_event', press)
         axes[0].imshow(image_arr)
         ax1 = axes[0].set_title(ann_image)
+
+        class0 = ['Unkown','Boats', 'Helicopters', 'Planes', 'Service', 'Emergency' ,'Military', 'Commercial','Trains']
+        class1 = ['Compacts','Sedans','SUVs','Coupes','Muscle','SportsClassics','Sports','Super']
+        class2 = ['Motorcycles','OffRoad','Industrial','Utility','Vans','Helicopters']
+
+        s =''
+        for c in class0:
+            s=s+ c + ' 0\n'
+        for c in class1:
+            s=s+ c + ' 1\n'
+        for c in class2:
+            s=s+ c + ' 2\n'
+
+        axes[1].text(0.1, 0.8, s, horizontalalignment='left', verticalalignment='top', transform=axes[1].transAxes)
+
         c = axes[1].text(0.5, 0.5, "Enter class")
 
         mng = plt.get_current_fig_manager()
@@ -72,13 +87,9 @@ if __name__ == "__main__":
         if global_exit:
             logging.warning("Exiting annotation loop")
             break
-        
+
     for (img_loc, val) in d.items():
         df.loc[df['guid/image'] == img_loc, 'label'] = val
         df.loc[df['guid/image'] == img_loc, 'valid'] = 1
 
     df.to_csv(os.path.join(os.path.join(file_name)))
-
-
-    
-    
