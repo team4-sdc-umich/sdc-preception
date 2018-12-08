@@ -44,11 +44,11 @@ def press(event):
 
 if __name__ == "__main__":
 
-    #if (len(sys.argv) < 2):
-    #    print ("Usage python annotate_tool.py <csv_file>")
-    #    exit()
-    #file_name = sys.argv[1]
-    file_name = os.path.abspath("res/test_annotate_5.csv")
+    if (len(sys.argv) < 2):
+        print ("Usage python annotate_tool.py <csv_file>")
+        exit()
+    file_name = sys.argv[1]
+    #file_name = os.path.abspath("res/test_annotate_5.csv")
     df = pd.read_csv(file_name)
 
 
@@ -56,7 +56,7 @@ if __name__ == "__main__":
     for  i, row in df[df.valid == 0].iterrows():
 
         ann_image = row['guid/image']
-        image = '../deploy/test/' + row['guid/image'] + '_image.jpg'
+        image = 'deploy/test/' + row['guid/image'] + '_image.jpg'
         image_arr = plt.imread(os.path.abspath(image))
         fig, axes = plt.subplots(2,1, figsize=(100,100))
 
