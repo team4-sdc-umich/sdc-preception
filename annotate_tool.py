@@ -16,7 +16,7 @@ import sys
 import cv2
 import os
 
-path_prefix = "deploy/test"  # Path to test data
+path_prefix = "../deploy/test"  # Path to test data
 global_exit_key = 'H'
 labels = ["None", "Cars", "Bikes"]
 labels_idx = ['0', '1', '2']
@@ -48,7 +48,7 @@ if __name__ == "__main__":
         print ("Usage python annotate_tool.py <csv_file>")
         exit()
     file_name = sys.argv[1]
-    # file_name = os.path.abspath("res/test_annotations_1.csv")
+    #file_name = os.path.abspath("res/test_annotate_5.csv")
     df = pd.read_csv(file_name)
 
 
