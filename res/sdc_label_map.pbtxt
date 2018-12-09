@@ -1,0 +1,109 @@
+item {
+  id : 1
+  name : 'Compacts'
+}
+
+item {
+  id : 2
+  name : 'Sedans'
+}
+
+item {
+  id : 3
+  name : 'SUVs'
+}
+
+item {
+  id : 4
+  name : 'Coupes'
+}
+
+item {
+  id : 5
+  name : 'Muscle'
+}
+
+item {
+  id : 6
+  name : 'SportsClassics'
+}
+
+item {
+  id : 7
+  name : 'Sports'
+}
+
+item {
+  id : 8
+  name : 'Super'
+}
+
+item {
+  id : 9
+  name : 'Motorcycles'
+}
+
+item {
+  id : 10
+  name : 'OffRoad'
+}
+
+item {
+  id : 11
+  name : 'Industrial'
+}
+
+item {
+  id : 12
+  name : 'Utility'
+}
+
+item {
+  id : 13
+  name : 'Vans'
+}
+
+item {
+  id : 14
+  name : 'Cycles'
+}
+
+item {
+  id : 15
+  name : 'Boats'
+}
+
+item {
+  id : 16
+  name : 'Helicopters'
+}
+
+item {
+  id : 17
+  name : 'Planes'
+}
+
+item {
+  id : 18
+  name : 'Service'
+}
+
+item {
+  id : 19
+  name : 'Emergency'
+}
+
+item {
+  id : 20
+  name : 'Military'
+}
+
+item {
+  id : 21
+  name : 'Commercial'
+}
+
+item {
+  id : 22
+  name : 'Trains'
+}
