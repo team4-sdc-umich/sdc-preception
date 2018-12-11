@@ -134,15 +134,27 @@ def get_img_info(snapshot):
 
     assert(len(vert_2D_list) <= 1)
 
-    xmin = np.min(vert_2D[0, :])
-    xmax = np.max(vert_2D[0, :])
+    
+    xmin = max(np.min(vert_2D[0, :]), 0)
+    
+    xmax = min(np.max(vert_2D[0, :]), width)
 
-    ymin = np.min(vert_2D[1, :])
-    ymax = np.max(vert_2D[1, :])
+    ymin = max(np.min(vert_2D[1, :]), 0)
+    ymax = min(np.max(vert_2D[1, :]), height)
 
     cls = int((bbox[0][-2]))
     assert(cls != 0)
 
+
+    if (abs(xmax - xmin) == width or
+        abs(xmax - xmin) == height):
+        print("Snaphot's messed up:", snapshot)
+
+    assert(xmin != xmax)
+    assert(ymin != ymax)
+    
+    
+    
     cls_name = CLASSES_MAP[cls]
     return {
         'width': width,
