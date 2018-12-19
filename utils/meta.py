@@ -1,10 +1,11 @@
-import pandas as pd
 import numpy as np
+import pandas as pd
 import os
 import PIL
 import io
 import tensorflow as tf
 import random
+import cv2 as cv
 
 def rot(n):
     n = np.asarray(n).flatten()
@@ -46,6 +47,16 @@ CLASSES_MAP = {
     22: 'Trains'
 }
 
+def compress_classification(class_name):
+    if int(class_name) in [0, 15, 16, 17, 18, 19, 20, 21, 22]:
+        return 0
+    elif int(class_name) in [1, 2, 3, 4, 5, 6, 7, 8]:
+        return 1
+    else:
+        return 2
+
+                      
+    
 
 def get_bbox(p0, p1):
     """
@@ -75,6 +86,54 @@ def get_bbox(p0, p1):
 
     return v, e
 
+
+
+def annotate_images(snapshot):
+    width, height = 0, 0
+    img = cv.imread(snapshot)
+    width, height, _ = img.shape
+
+    bbox = []
+    if os.path.exists(snapshot.replace('_image.jpg', '_bbox.bin')):
+        bbox = np.fromfile(snapshot.replace('_image.jpg', '_bbox.bin'), dtype=np.float32)
+    else:
+        print ("There's no bounding box for this: ", snapshot)
+
+
+
+    proj = np.fromfile(snapshot.replace('_image.jpg', '_proj.bin'), dtype=np.float32)
+    proj.resize([3, 4])
+
+
+    bbox = bbox.reshape([-1, 11])
+    
+    vert_2D_list = []
+    vert_2D = []
+
+    for b in bbox:
+        sz = b[6:9] 
+        R = rot(b[0:3])
+        t = b[3:6]
+    
+        vert_3D, edges = get_bbox(-sz / 2, sz / 2)
+        vert_3D = R @ vert_3D + t[:, np.newaxis]
+        vert_2D = proj @ np.vstack([vert_3D, np.ones(vert_3D.shape[1])])
+        vert_2D = vert_2D / vert_2D[2, :]
+        vert_2D_list.append(vert_2D)
+
+    assert(len(vert_2D_list) <= 1)
+
+
+    xmin = max(np.min(vert_2D[0, :]), 0)
+    
+    xmax = min(np.max(vert_2D[0, :]), width)
+
+    ymin = max(np.min(vert_2D[1, :]), 0)
+    ymax = min(np.max(vert_2D[1, :]), height)
+
+    img = cv.rectangle(img, (int(xmin), int(ymax)), (int(xmax), int(ymin)), (0, 255, 0), 5)
+    return img
+    
 
 def get_img_info(snapshot):
     ''' Extracts image info for the file path provided
