@@ -32,7 +32,7 @@ tf.app.flags.DEFINE_string('output_path', '', 'Path to which TFRecord files'
                            'located at: <output_path>_val.tfrecord')
 tf.app.flags.DEFINE_string('label_map_path', 'data/kitti_label_map.pbtxt',
                            'Path to label map proto.')
-tf.app.flags.DEFINE_integer('validation_set_size', '500', 'Number of images to'
+tf.app.flags.DEFINE_integer('validation_set_size', '100', 'Number of images to'
                             'be used as a validation set.')
 tf.app.flags.DEFINE_integer('seed', '0', 'Seed for shuffling')
 FLAGS = flags.FLAGS
@@ -57,7 +57,7 @@ def create_tf_example(info):
     # (1 per box)
     classes_text = [info['name'].encode('utf8')] # List of string class name of bounding box (1 per box)
     classes = [info['class']] # List of integer class id of bounding box (1 per box)
-
+    print (classes_text, classes)
     tf_example = tf.train.Example(features=tf.train.Features(feature={
         'image/height': dataset_util.int64_feature(height),
         'image/width': dataset_util.int64_feature(width),
@@ -93,16 +93,21 @@ def main(_):
     #                                          output_path)    
 
     print("Data dir is", data_dir[0])
-    img_files = glob(os.path.join(data_dir[0], './*/*image.jpg'))
-    random.shuffle(img_files)
+    img_files = sorted(glob(os.path.join(data_dir[0], './*/*image.jpg')))
 
     num_images = len(img_files)
 
-    train_size = num_images - validation_set_size
+    train_size = num_images
 
-    train_images = img_files[0: train_size]
-    val_images = img_files[-validation_set_size:]
 
+    print("Validation set size", validation_set_size)
+    print("Training set size", len(img_files))
+
+    # Use all images.
+    train_images = img_files
+
+    # Get the first n images for validation
+    val_images = img_files[:validation_set_size]
 
 
     num_shards=10
