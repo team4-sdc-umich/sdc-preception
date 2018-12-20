@@ -7,14 +7,21 @@
    https://github.com/tensorflow/models/blob/master/research/object_detection/g3doc/installation.md#add-libraries-to-pythonpath
    
    
-   # INstallation instruction quick summary
-   # For CPU
-   pip install tensorflow
-   # For GPU
-   pip install tensorflow-gpu
+
+   
+   #+begin_src sh
+     # INstallation instruction quick summary
+     # For CPU
+     pip install tensorflow
+     # For GPU
+     pip install tensorflow-gpu
+   #+end_src
+
+
    
    The remaining libraries can be installed on Ubuntu 16.04 using via apt-get:
-   
+
+   #+begin_src sh
    sudo apt-get install protobuf-compiler python-pil python-lxml python-tk
    pip install --user Cython
    pip install --user contextlib2
@@ -29,23 +36,30 @@
    pip install --user lxml
    pip install --user jupyter
    pip install --user matplotlib
+   #+end_src
+   
+
    
    
    
-   # FOr coco metrics
-   git clone https://github.com/cocodataset/cocoapi.git
-   cd cocoapi/PythonAPI
-   make
-   cp -r pycocotools <path_to_tensorflow>/models/research/
    
-   # From tensorflow/models/research/
-   protoc object_detection/protos/*.proto --python_out=.
-   
-   
-   # From tensorflow/models/research/
-   export PYTHONPATH=$PYTHONPATH:`pwd`:`pwd`/slim
-   or 
-   export PYTHONPATH=$PYTHONPATH:/home/akash/learn/tools/models/research:/home/akash/learn/tools/models/research/slim
+   #+begin_src sh
+     # FOr coco metrics
+     git clone https://github.com/cocodataset/cocoapi.git
+     cd cocoapi/PythonAPI
+     make
+     cp -r pycocotools <path_to_tensorflow>/models/research/
+
+     # From tensorflow/models/research/
+     protoc object_detection/protos/*.proto --python_out=.
+
+
+     # From tensorflow/models/research/
+     export PYTHONPATH=$PYTHONPATH:`pwd`:`pwd`/slim
+
+   #+end_src
+
+
    
 ** Experiments performed
 
@@ -74,5 +88,7 @@
 
 ** Task 2
 
-   Task 2 Instructions: Run the file Task2FinalCode.py with bbox_data in the code pointing to the correct location of the bounding box pkl file. 
-   The code generates outputTask2.csv file in the current working directory.
+   Task 2 Instructions: Run the file Task2FinalCode.py with bbox_data
+   in the code pointing to the correct location of the bounding box
+   pkl file.  The code generates outputTask2.csv file in the current
+   working directory.
