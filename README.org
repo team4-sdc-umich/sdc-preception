@@ -1,55 +1,78 @@
 * Vision project
 
-  Buwhahahahahaahahahahah!!! We are so screwed!!!
+
+** Set up of TF object detection module.
+   Please remember to put this in bin/activate after following the tensorflow model detection api's obj:
+   
+   https://github.com/tensorflow/models/blob/master/research/object_detection/g3doc/installation.md#add-libraries-to-pythonpath
+   
+   
+   # INstallation instruction quick summary
+   # For CPU
+   pip install tensorflow
+   # For GPU
+   pip install tensorflow-gpu
+   
+   The remaining libraries can be installed on Ubuntu 16.04 using via apt-get:
+   
+   sudo apt-get install protobuf-compiler python-pil python-lxml python-tk
+   pip install --user Cython
+   pip install --user contextlib2
+   pip install --user jupyter
+   pip install --user matplotlib
+   
+   Alternatively, users can install dependencies using pip:
+   
+   pip install --user Cython
+   pip install --user contextlib2
+   pip install --user pillow
+   pip install --user lxml
+   pip install --user jupyter
+   pip install --user matplotlib
+   
+   
+   
+   # FOr coco metrics
+   git clone https://github.com/cocodataset/cocoapi.git
+   cd cocoapi/PythonAPI
+   make
+   cp -r pycocotools <path_to_tensorflow>/models/research/
+   
+   # From tensorflow/models/research/
+   protoc object_detection/protos/*.proto --python_out=.
+   
+   
+   # From tensorflow/models/research/
+   export PYTHONPATH=$PYTHONPATH:`pwd`:`pwd`/slim
+   or 
+   export PYTHONPATH=$PYTHONPATH:/home/akash/learn/tools/models/research:/home/akash/learn/tools/models/research/slim
+   
+** Experiments performed
+
+   The data was prepared (made into tf-record shards of size 10)
+   according to the guide.
+
+   The following files were edited to allow for setting up the
+   pipeline and the hyper-parameters for faster RCNN as well as what
+   was to be done during training.
+
+   config/faster_rcnn_resnet101_sdc.config -- has the configuration.
+   config/sdc_label_map.pbtxt -- Has the class to label mapping.
+
+   utils/visualize allows one to visualize tf-record shards.  Sharding
+   was done to fit the training data onto the GPU.
+
+   
+
+   the run_sdc_train.sh script is used for running a tensorflow object
+   detection.  This will have to be from the tensorflow's
+   model/research folder.
+
+   GCP will also have to be set up according to the installation
+   guide.
 
 
-** Easy peasy installation for tf-object-detection module.
-Please remember to put this in bin/activate after following the tensorflow model detection api's obj:
+** Task 2
 
-https://github.com/tensorflow/models/blob/master/research/object_detection/g3doc/installation.md#add-libraries-to-pythonpath
-
-
-# INstallation instruction quick summary
-# For CPU
-pip install tensorflow
-# For GPU
-pip install tensorflow-gpu
-
-The remaining libraries can be installed on Ubuntu 16.04 using via apt-get:
-
-sudo apt-get install protobuf-compiler python-pil python-lxml python-tk
-pip install --user Cython
-pip install --user contextlib2
-pip install --user jupyter
-pip install --user matplotlib
-
-Alternatively, users can install dependencies using pip:
-
-pip install --user Cython
-pip install --user contextlib2
-pip install --user pillow
-pip install --user lxml
-pip install --user jupyter
-pip install --user matplotlib
-
-
-
-# FOr coco metrics
-git clone https://github.com/cocodataset/cocoapi.git
-cd cocoapi/PythonAPI
-make
-cp -r pycocotools <path_to_tensorflow>/models/research/
-
-# From tensorflow/models/research/
-protoc object_detection/protos/*.proto --python_out=.
-
-
-# From tensorflow/models/research/
-export PYTHONPATH=$PYTHONPATH:`pwd`:`pwd`/slim
-or 
-export PYTHONPATH=$PYTHONPATH:/home/akash/learn/tools/models/research:/home/akash/learn/tools/models/research/slim
-
-Task 2 Instructions: Run the file Task2FinalCode.py with bbox_data in the code pointing to the correct location of the bounding box pkl file. 
-The code generates outputTask2.csv file in the current working directory.
-
-
+   Task 2 Instructions: Run the file Task2FinalCode.py with bbox_data in the code pointing to the correct location of the bounding box pkl file. 
+   The code generates outputTask2.csv file in the current working directory.
