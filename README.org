@@ -49,5 +49,7 @@ export PYTHONPATH=$PYTHONPATH:`pwd`:`pwd`/slim
 or 
 export PYTHONPATH=$PYTHONPATH:/home/akash/learn/tools/models/research:/home/akash/learn/tools/models/research/slim
 
+Task 2 Instructions: Run the file Task2FinalCode.py with bbox_data in the code pointing to the correct location of the bounding box pkl file. 
+The code generates outputTask2.csv file in the current working directory.
 
 
