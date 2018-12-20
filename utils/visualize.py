@@ -82,15 +82,14 @@ def visualize(tfrecords_filename, label_map=None):
             break
 
 
-        return host_example
     
 
-# scores = np.ones(host_example['groundtruth_boxes'].shape[0])
-# vu.visualize_boxes_and_labels_on_image_array(
-#             host_example['image'],
-#             host_example['groundtruth_boxes'],
-#             host_example['groundtruth_classes'],
-#             scores,
-#             class_dict,
-#             max_boxes_to_draw=None,
-#             use_normalized_coordinates=True)        
+    scores = np.ones(host_example['groundtruth_boxes'].shape[0])
+    vu.visualize_boxes_and_labels_on_image_array(
+                host_example['image'],
+                host_example['groundtruth_boxes'],
+                host_example['groundtruth_classes'],
+                scores,
+                class_dict,
+                max_boxes_to_draw=None,
+                use_normalized_coordinates=True)        
