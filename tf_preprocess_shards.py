@@ -57,7 +57,7 @@ def create_tf_example(info):
     # (1 per box)
     classes_text = [info['name'].encode('utf8')] # List of string class name of bounding box (1 per box)
     classes = [info['class']] # List of integer class id of bounding box (1 per box)
-    print (classes_text, classes)
+    # print (classes_text, classes)
     tf_example = tf.train.Example(features=tf.train.Features(feature={
         'image/height': dataset_util.int64_feature(height),
         'image/width': dataset_util.int64_feature(width),
@@ -97,17 +97,22 @@ def main(_):
 
     num_images = len(img_files)
 
-    train_size = num_images
+    train_size = num_images - validation_set_size
+
 
 
     print("Validation set size", validation_set_size)
     print("Training set size", len(img_files))
 
-    # Use all images.
-    train_images = img_files
 
+    # Use all images.
+    random.shuffle(img_files)
+
+    train_images = img_files[:train_size]
+    
     # Get the first n images for validation
     val_images = img_files[:validation_set_size]
+    
 
 
     num_shards=10
@@ -118,12 +123,12 @@ def main(_):
 
     if not os.path.exists(train_dir):
         os.makedirs(train_dir)
-        
+
     if not os.path.exists(val_dir):
         os.makedirs(val_dir)        
-        
 
-        
+
+
     output_filebase=  os.path.join(output_path[0], 'train' ,'train_dataset.record')
     
     with contextlib2.ExitStack() as tf_record_close_stack:
