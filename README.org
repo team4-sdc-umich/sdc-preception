@@ -86,6 +86,74 @@
    guide.
 
 
+** Code to run
+
+   The following were done.
+
+   
+   #+begin_src sh
+     python equalize.py
+   #+end_src
+
+   The path has to be set in the script to test or trainval.  This
+   will perform adaptive equalization.  We found that doing adaptive
+   equalization helps in improving the test results even when trained
+   on the original train data.  We achieved the highest score we have
+   from that though training we weren't able to train it for
+   convergence for the images equalized for training as well.  
+
+
+   Once that has been done, create tf record shards via the script.
+   It splits the test data into multiple tf records for better memory
+   bandwidth utilization and not having to move the entire data
+   online.
+   #+begin_src sh
+     /home/akash/finals/vision/tf_preprocess_shards.py --data_dir=<train_datta> --output_path=<output_dir>
+   #+end_src
+
+   
+   You'll also need the following files 
+   * res/sdc_label_map.pbtxt
+     * Describes the new labels and classes
+   * config/faster_rcnn_resnet101_sdc.config
+     * Describes the faster RCNN training parameters like learning
+       rate, number of proposals etc.
+     * We changed the last layer for training (the classification one)
+     * We resize the inputs before we feed themn in.
+       
+   Once you have the tf-records, move them onto your GCP bucket and
+   start the training via
+   - run_sdc_train.sh (you should be in tensorflow's model/research
+     folder.
+
+   - Once training is complete, the following script will give what is
+     needed.
+     * to_frozen_graph.sh
+     * You'll need to change paths as required.
+       
+       
+   - The above step will create a frozen graph with which we can
+     infer.  Again, from models/research, execute the following
+     command to get the following.
+     * final_output.csv
+     * A pickled list of dictionaries containing information about the
+       inference like bounding box classes, scores and boxes
+       themselve.
+     * Change the paths as required in the script.  It expects a
+       frozen_graph.pb in the same foler as models/research
+       
+   #+begin_src sh
+     infer_via_model.py
+   #+end_src
+
+   The output csv file requires some preprocessing (done via a
+   regular text editor with regex replaces.  
+
+   The pickled list goes as an input to the next task, which is used
+   for finding the bounding boxes.
+   
+   
+
 ** Task 2
 
    Task 2 Instructions: Run the file Task2FinalCode.py with bbox_data
